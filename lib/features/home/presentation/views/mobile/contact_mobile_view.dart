@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
 import 'package:myportfolio/core/theme/app_text_styles.dart';
+import 'package:myportfolio/data.dart';
+import 'package:myportfolio/features/home/presentation/widgets/contact_form.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:js' as js;
 
@@ -16,23 +18,6 @@ class ContactMobileView extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // ===== بيانات الاتصال =====
-    final contacts = [
-      {
-        'type': 'Email',
-        'value': 'abduoalllh2001@gmail.com',
-        'icon': Icons.email_rounded,
-      },
-      {
-        'type': 'Phone',
-        'value': '+963 945 342 091',
-        'icon': Icons.phone_rounded,
-      },
-      {
-        'type': 'Location',
-        'value': 'Aleppo , Syria',
-        'icon': Icons.location_on_rounded,
-      },
-    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -103,7 +88,7 @@ class ContactMobileView extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
+                      SelectableText(
                         contact['value'] as String,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
@@ -116,7 +101,13 @@ class ContactMobileView extends ConsumerWidget {
               ),
             );
           }).toList(),
-          SizedBox(height: 40),
+          
+          const SizedBox(height: 40),
+          
+          // ===== Contact Form =====
+          const ContactForm(),
+          
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -154,8 +145,7 @@ class ContactFooter extends StatelessWidget {
             children: [
               _SocialIcon(
                 iconWidget: FaIcon(FontAwesomeIcons.linkedin),
-                url:
-                    'https://www.linkedin.com/in/abdullah-sabsbi-405433385?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+                url: 'https://www.linkedin.com/in/abdullah-sabsabi-405433385',
               ),
               const SizedBox(width: 30),
               _SocialIcon(

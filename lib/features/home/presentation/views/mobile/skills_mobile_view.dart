@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
+import 'package:myportfolio/data.dart';
 
 class SkillsMobileView extends ConsumerWidget {
   const SkillsMobileView({super.key});
@@ -9,82 +10,6 @@ class SkillsMobileView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final List<String> tools = [
-      'VS Code',
-      'Android Studio',
-
-      'Git',
-      'GitHub',
-      'Postman',
-      'Figma',
-      'Firebase Console',
-      'Supabase Console',
-    ];
-
-    final Map<String, IconData> toolIcons = {
-      'VS Code': Icons.code_rounded,
-      'Android Studio': Icons.android_rounded,
-
-      'Git': Icons.merge_type_rounded,
-      'GitHub': Icons.cloud_rounded, // ممكن تحط GitHub Icon لو عندك Package
-      'Postman': Icons.send_rounded,
-      'Figma': Icons.design_services_rounded,
-      'Firebase Console': Icons.cloud_rounded,
-      'Supabase Console': Icons.storage_rounded,
-    };
-
-    final skills = [
-      'Flutter',
-      'Dart',
-      'UI Design',
-      'Responsive UI',
-
-      'BLoC',
-      'Riverpod',
-      'Cubit',
-      'Local Storage',
-
-      'Clean Architecture',
-      'Performance Optimization',
-
-      'Firebase',
-      'Supabase',
-      'REST API',
-
-      'Teamwork',
-      'Problem Solving',
-      'Time Management',
-      'Communication',
-      'Adaptability'
-          'Creativity',
-    ];
-    final Map<String, IconData> skillIcons = {
-      // ===== Flutter & Dart =====
-      'Flutter': Icons.flutter_dash,
-      'Dart': Icons.code_rounded,
-      'UI Design': Icons.design_services_rounded,
-      'Responsive UI': Icons.devices_rounded,
-
-      'BLoC': Icons.account_tree_rounded,
-      'Riverpod': Icons.hub_rounded,
-      'Cubit': Icons.extension_rounded,
-      'Local Storage': Icons.storage_rounded,
-
-      'Clean Architecture': Icons.layers_rounded,
-      'Performance Optimization': Icons.speed_rounded,
-
-      'Firebase': Icons.cloud_rounded,
-      'Supabase': Icons.storage_rounded,
-      'REST API': Icons.api_rounded,
-
-      // ===== Soft Skills =====
-      'Teamwork': Icons.group_rounded,
-      'Problem Solving': Icons.psychology_rounded,
-      'Time Management': Icons.schedule_rounded,
-      'Communication': Icons.chat_rounded,
-      'Adaptability': Icons.autorenew_rounded,
-      'Creativity': Icons.lightbulb_rounded,
-    };
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),

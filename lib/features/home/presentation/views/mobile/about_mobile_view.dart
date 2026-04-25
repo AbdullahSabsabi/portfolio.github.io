@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
 import 'package:myportfolio/core/theme/app_text_styles.dart';
+import 'package:myportfolio/data.dart';
+import 'package:myportfolio/project_model.dart';
 
 class AboutMobileView extends ConsumerWidget {
   const AboutMobileView({super.key});
@@ -224,6 +226,127 @@ class AboutMobileView extends ConsumerWidget {
               ],
             ),
           ),
+
+          const SizedBox(height: 50),
+
+          // ===== Work Experience =====
+          Center(
+            child: Text(
+              'Work Experience',
+              style: GoogleFonts.poppins(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: isDark ? AppColors.secondary : AppColors.primary,
+              ),
+            ),
+          ),
+          const SizedBox(height: 25),
+
+          ...experiences.map((exp) => Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? AppColors.darkSurface.withOpacity(0.65)
+                        : AppColors.lightSurface,
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(
+                      color: AppColors.primary.withOpacity(0.35),
+                      width: 1.2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 12,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // ===== Work Icon =====
+                      Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withOpacity(0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.work_rounded,
+                          color: AppColors.primary,
+                          size: 28,
+                        ),
+                      ),
+
+                      const SizedBox(width: 16),
+
+                      // ===== Experience Info =====
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Title
+                            Text(
+                              exp.title,
+                              style: GoogleFonts.poppins(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            const SizedBox(height: 6),
+
+                            // Company
+                            Text(
+                              exp.company,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: isDark ? AppColors.secondary : AppColors.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+
+                            const SizedBox(height: 6),
+
+                            // Period
+                            Text(
+                              exp.period,
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                color: Colors.grey,
+                              ),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            // Location & Work Type
+                            Row(
+                              children: [
+                                Icon(Icons.location_on_rounded, size: 14, color: Colors.grey),
+                                const SizedBox(width: 4),
+                                Text(
+                                  exp.location,
+                                  style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+                                ),
+                                const SizedBox(width: 12),
+                                Icon(Icons.laptop_rounded, size: 14, color: Colors.grey),
+                                const SizedBox(width: 4),
+                                Text(
+                                  exp.workType,
+                                  style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
 
           const SizedBox(height: 40),
 

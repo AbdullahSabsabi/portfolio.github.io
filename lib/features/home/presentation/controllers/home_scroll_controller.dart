@@ -20,3 +20,17 @@ final scrollControllerProvider = Provider.autoDispose<ScrollController>(
 final activeSectionProvider = StateProvider<HomeSection>(
   (ref) => HomeSection.about,
 );
+
+class HomeSectionItem {
+  final HomeSection section;
+  final GlobalKey key;
+
+  const HomeSectionItem({required this.section, required this.key});
+}
+
+final homeSections = [
+  HomeSectionItem(section: HomeSection.about, key: aboutKey),
+  HomeSectionItem(section: HomeSection.skills, key: skillsKey),
+  HomeSectionItem(section: HomeSection.projects, key: projectsKey),
+  HomeSectionItem(section: HomeSection.contact, key: contactKey),
+];

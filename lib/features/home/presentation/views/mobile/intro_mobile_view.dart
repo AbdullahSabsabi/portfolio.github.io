@@ -1,9 +1,14 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'dart:html' as html;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:myportfolio/core/app/providers.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
+import 'package:myportfolio/features/home/presentation/controllers/home_scroll_controller.dart';
+import 'package:myportfolio/features/home/presentation/pages/home_page.dart';
+import 'package:myportfolio/features/home/presentation/widgets/image.dart';
 
 class IntroMobileView extends ConsumerStatefulWidget {
   const IntroMobileView({super.key});
@@ -57,13 +62,8 @@ class _IntroMobileViewState extends ConsumerState<IntroMobileView>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 100),
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 150,
-                  backgroundImage: const AssetImage(
-                    'assets/images/profile.jpg',
-                  ),
-                ),
+                // بعد إضافة مكتبة animate_do
+                PulsingAvatar(radius: 150),
                 SizedBox(height: 50),
                 // ===== Animated Name =====
                 DefaultTextStyle(
@@ -83,7 +83,7 @@ class _IntroMobileViewState extends ConsumerState<IntroMobileView>
                         animatedTexts: [
                           TypewriterAnimatedText(
                             'Hi, I am ',
-                            speed: const Duration(milliseconds: 150),
+                            speed: const Duration(milliseconds: 250),
                             cursor: '',
                             textStyle: GoogleFonts.poppins(
                               fontSize: 36,
@@ -98,7 +98,7 @@ class _IntroMobileViewState extends ConsumerState<IntroMobileView>
                         animatedTexts: [
                           TypewriterAnimatedText(
                             'Abdullah',
-                            speed: const Duration(milliseconds: 150),
+                            speed: const Duration(milliseconds: 250),
                             cursor: '|',
                             textStyle: GoogleFonts.poppins(
                               fontSize: 36,
@@ -128,10 +128,10 @@ class _IntroMobileViewState extends ConsumerState<IntroMobileView>
                       TypewriterAnimatedText(
                         'Informatics Engineer & Flutter Developer',
                         textStyle: GoogleFonts.poppins(
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
-                        speed: const Duration(milliseconds: 75),
+                        speed: const Duration(milliseconds: 100),
                         cursor: '|',
                       ),
                     ],
@@ -139,30 +139,67 @@ class _IntroMobileViewState extends ConsumerState<IntroMobileView>
                 ),
 
                 const SizedBox(height: 40),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 18,
+                Row(
+                  spacing: 10,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 18,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        shadowColor: AppColors.primary.withOpacity(0.6),
+                        elevation: 8,
+                      ),
+                      onPressed: () {
+                        const cvUrl =
+                            'https://drive.google.com/file/d/1CS89ueVxh1MtbrE5Rd0CXy-u4zQioeeE/view?usp=sharing';
+                        html.window.open(
+                          cvUrl,
+                          '_blank',
+                        ); // يفتح الرابط في نافذة جديدة
+                      },
+                      child: Text(
+                        'View CV',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        side: const BorderSide(color: AppColors.primary),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 18,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        shadowColor: AppColors.primary.withOpacity(0.6),
+                        //elevation: 8,
+                      ),
+                      onPressed: () {
+                        scrollToSection(projectsKey);
+                      },
+                      child: Text(
+                        'My Projects',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                    shadowColor: AppColors.primary.withOpacity(0.6),
-                    elevation: 8,
-                  ),
-                  onPressed: () {
-                    // Action: Download CV
-                  },
-                  child: Text(
-                    'Download CV',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  ],
                 ),
                 const SizedBox(height: 75),
               ],
@@ -171,5 +208,16 @@ class _IntroMobileViewState extends ConsumerState<IntroMobileView>
         ),
       ),
     );
+  }
+
+  void scrollToSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 }

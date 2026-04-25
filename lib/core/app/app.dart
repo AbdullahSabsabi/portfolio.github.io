@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myportfolio/features/home/presentation/pages/home_page.dart';
-import 'package:myportfolio/features/home/presentation/views/mobile/loading_mobile.dart';
+import 'package:myportfolio/loading_mobile.dart';
 
 import '../theme/app_theme.dart';
 import 'providers.dart';

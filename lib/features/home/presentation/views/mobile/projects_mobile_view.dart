@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
+import 'package:myportfolio/data.dart';
 import 'package:myportfolio/features/home/presentation/widgets/github_button_widget.dart';
 import 'package:myportfolio/project_model.dart';
 
@@ -11,59 +12,6 @@ class ProjectsMobileView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final projects = <Project>[
-      Project(
-        name: 'WASK STYLE',
-        description:
-            'A full-featured e-commerce mobile application built with a clean and scalable architecture, focusing on user experience, authentication, and complete store management functionalities.\nThe app allows users to create accounts, browse products by categories, manage favorites, place orders, and simulate an online payment flow. It also includes an admin-side logic for managing products, categories, orders, and reports.',
-        images: [
-          'assets/images/e1.png',
-          'assets/images/e2.png',
-          'assets/images/e3.png',
-          'assets/images/e4.png',
-          'assets/images/e5.png',
-          'assets/images/e6.png',
-        ],
-        tools: [
-          'Flutter',
-          'Dart',
-          'UI Design',
-          'Responsive UI',
-          'Shared Preferences',
-          'Cubit',
-          'Clean Architecture',
-          'asp.net core',
-        ],
-        githubUrl: 'https://github.com/AbdullahSabsabi/ecommerce_app',
-      ),
-      Project(
-        name: 'Memo',
-        description:
-            'A fully functional Notes Application built using Flutter, featuring a complete local login system and notes management. The app allows users to create an account, log in, and manage their notes with options to add, edit, and delete them.',
-        images: [
-          'assets/images/m1.png',
-          'assets/images/m2.png',
-          'assets/images/m3.png',
-        ],
-        tools: [
-          'Flutter',
-          'Dart',
-          'Shared Preferences',
-          'Riverpod',
-          'Reactive Forms',
-        ],
-        githubUrl: 'https://github.com/AbdullahSabsabi/memo_app',
-      ),
-      Project(
-        name: 'Chat App',
-        description:
-            'A simple Chat App built using Flutter with full integration of Firebase. The application allows users to create an account and log in, then send and receive instant messages with real-time updates.',
-        images: ['assets/images/c1.png', 'assets/images/c2.png'],
-        tools: ['Flutter', 'Dart', 'Firebase'],
-        githubUrl: 'https://github.com/AbdullahSabsabi/chat_app',
-      ),
-    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -133,9 +81,10 @@ class _ProjectCardState extends State<ProjectCard> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Card(
-      color: isDark
-          ? const Color.fromARGB(255, 44, 34, 85).withOpacity(0.7)
-          : Colors.white,
+      color: Colors.transparent,
+      // color: isDark
+      //     ? const Color.fromARGB(255, 44, 34, 85).withOpacity(0.7)
+      //     : Colors.white,
       elevation: 10,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(22)),
@@ -159,9 +108,13 @@ class _ProjectCardState extends State<ProjectCard> {
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(22),
                       ),
-                      child: Image.network(
-                        widget.project.images[index],
-                        fit: BoxFit.cover,
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Image.asset(
+                          //color: Colors.transparent,
+                          widget.project.images[index],
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     );
                   },
@@ -169,7 +122,7 @@ class _ProjectCardState extends State<ProjectCard> {
               ),
 
               /// ===== Left Arrow =====
-              _NavArrow(
+              NavArrow(
                 icon: Icons.chevron_left_rounded,
                 onTap: _prev,
                 alignment: Alignment.centerLeft,
@@ -178,7 +131,7 @@ class _ProjectCardState extends State<ProjectCard> {
               ),
 
               /// ===== Right Arrow =====
-              _NavArrow(
+              NavArrow(
                 icon: Icons.chevron_right_rounded,
                 onTap: _next,
                 alignment: Alignment.centerRight,
@@ -216,71 +169,78 @@ class _ProjectCardState extends State<ProjectCard> {
           ),
 
           /// ===== Content =====
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: 16,
-              bottom: 16,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.project.name,
-                  style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.secondary : AppColors.primary,
+          Container(
+            color: isDark
+                ? const Color.fromARGB(255, 44, 34, 85).withOpacity(0.7)
+                : Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.project.name,
+                    style: GoogleFonts.poppins(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? AppColors.secondary : AppColors.primary,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                /// Description
-                Text(
-                  widget.project.description,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                  /// Description
+                  Text(
+                    widget.project.description,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
 
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                Column(
-                  children: widget.project.tools.map((tool) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Text(
-                          tool,
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                  Column(
+                    children: widget.project.tools.map((tool) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primary.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            tool,
+                            textAlign: TextAlign.start,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
 
-                            color: isDark
-                                ? AppColors.secondary
-                                : AppColors.primary,
+                              color: isDark
+                                  ? AppColors.secondary
+                                  : AppColors.primary,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                ),
+                      );
+                    }).toList(),
+                  ),
 
-                const SizedBox(height: 40),
-                Center(child: GitHubLinkButton(url: widget.project.githubUrl)),
-              ],
+                  const SizedBox(height: 40),
+                  Center(
+                    child: GitHubLinkButton(url: widget.project.githubUrl),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -289,14 +249,14 @@ class _ProjectCardState extends State<ProjectCard> {
   }
 }
 
-class _NavArrow extends StatefulWidget {
+class NavArrow extends StatefulWidget {
   final IconData icon;
   final VoidCallback onTap;
   final Alignment alignment;
   final bool isVisible;
   final bool isDark;
 
-  const _NavArrow({
+  const NavArrow({
     required this.icon,
     required this.onTap,
     required this.alignment,
@@ -305,10 +265,10 @@ class _NavArrow extends StatefulWidget {
   });
 
   @override
-  State<_NavArrow> createState() => _NavArrowState();
+  State<NavArrow> createState() => _NavArrowState();
 }
 
-class _NavArrowState extends State<_NavArrow> {
+class _NavArrowState extends State<NavArrow> {
   bool _hovered = false;
 
   @override

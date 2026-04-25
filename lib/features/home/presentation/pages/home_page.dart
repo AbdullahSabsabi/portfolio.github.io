@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myportfolio/core/app/providers.dart';
+import 'package:myportfolio/core/responsive/device_layout.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
+import 'package:myportfolio/features/home/presentation/widgets/desktop_nav_bar.dart';
 
 import '../controllers/home_scroll_controller.dart';
 import '../widgets/home_tab_bar.dart';
@@ -11,6 +13,11 @@ import '../views/mobile/about_mobile_view.dart';
 import '../views/mobile/skills_mobile_view.dart';
 import '../views/mobile/projects_mobile_view.dart';
 import '../views/mobile/contact_mobile_view.dart';
+import '../views/desktop/intro_desktop_view.dart';
+import '../views/desktop/about_desktop_view.dart';
+import '../views/desktop/skills_desktop_view.dart';
+import '../views/desktop/projects_desktop_view.dart';
+import '../views/desktop/contact_desktop_view.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -27,42 +34,87 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
     _scrollController = ref.read(scrollControllerProvider);
 
-    // Listener لتغيير الـ Tab النشط أثناء Scroll
-    _scrollController.addListener(() {
-      final scroll = _scrollController.offset;
-
-      final aboutPos =
-          aboutKey.currentContext?.findRenderObject() as RenderBox?;
-      final skillsPos =
-          skillsKey.currentContext?.findRenderObject() as RenderBox?;
-      final projectsPos =
-          projectsKey.currentContext?.findRenderObject() as RenderBox?;
-      final contactPos =
-          contactKey.currentContext?.findRenderObject() as RenderBox?;
-
-      if (aboutPos != null &&
-          scroll < skillsPos!.localToGlobal(Offset.zero).dy) {
-        ref.read(activeSectionProvider.notifier).state = HomeSection.about;
-      } else if (skillsPos != null &&
-          scroll < projectsPos!.localToGlobal(Offset.zero).dy) {
-        ref.read(activeSectionProvider.notifier).state = HomeSection.skills;
-      } else if (projectsPos != null &&
-          scroll < contactPos!.localToGlobal(Offset.zero).dy) {
-        ref.read(activeSectionProvider.notifier).state = HomeSection.projects;
-      } else {
-        ref.read(activeSectionProvider.notifier).state = HomeSection.contact;
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(_scrollListener);
     });
   }
 
-  void scrollToSection(GlobalKey key) {
+  // Removed duplicate _scrollListener method to resolve naming conflict.
+
+  // دالة مساعدة للحصول على offset داخل ScrollController
+  double _getOffset(GlobalKey key) {
     final context = key.currentContext;
+    if (context == null) return double.infinity;
+    final box = context.findRenderObject() as RenderBox;
+    return box
+            .localToGlobal(
+              Offset.zero,
+              ancestor: context.findAncestorRenderObjectOfType()!,
+            )
+            .dy +
+        _scrollController.offset;
+  }
+
+  // void scrollToSection(GlobalKey key) {
+  //   final context = key.currentContext;
+  //   if (context != null) {
+  //     Scrollable.ensureVisible(
+  //       context,
+  //       duration: const Duration(milliseconds: 500),
+  //       curve: Curves.easeInOut,
+  //     );
+  //   }
+  // }
+
+  bool isScrollingByTab = false;
+
+  void scrollToSection(HomeSection section) {
+    final item = homeSections.firstWhere((e) => e.section == section);
+    final context = item.key.currentContext;
+
     if (context != null) {
+      // تفعيل flag
+      isScrollingByTab = true;
+
+      // تحديث الـ active tab مباشرة
+      ref.read(activeSectionProvider.notifier).state = section;
+
       Scrollable.ensureVisible(
         context,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
-      );
+      ).then((_) {
+        // بعد انتهاء الحركة، إيقاف flag
+        Future.delayed(const Duration(milliseconds: 50), () {
+          isScrollingByTab = false;
+        });
+      });
+    }
+  }
+
+  // ignore: unused_element
+  void _scrollListener() {
+    if (isScrollingByTab) return; // تجاهل تحديثات listener أثناء scroll من Tab
+
+    final scrollOffset = _scrollController.offset;
+
+    HomeSection? current;
+
+    sectionKeys.forEach((section, key) {
+      final ctx = key.currentContext;
+      if (ctx != null) {
+        final box = ctx.findRenderObject() as RenderBox;
+        final pos =
+            box.localToGlobal(Offset.zero).dy + _scrollController.offset;
+        if (scrollOffset >= pos - 50) {
+          // -50 لضبط التمرير
+          current = section;
+        }
+      }
+    });
+
+    if (current != null && ref.read(activeSectionProvider) != current) {
+      ref.read(activeSectionProvider.notifier).state = current!;
     }
   }
 
@@ -73,7 +125,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       body: Container(
-        //padding: EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
           gradient: isDark ? AppColors.darkGradient : AppColors.lightGradient,
         ),
@@ -92,23 +143,51 @@ class _HomePageState extends ConsumerState<HomePage> {
                       controller: _scrollController,
                       child: Column(
                         children: [
-                          const IntroMobileView(),
+                          // Intro Section
+                          DeviceLayout(
+                            mobile: const IntroMobileView(),
+                            desktop: const IntroDesktopView(),
+                          ),
+                          // About Section
                           SectionWrapper(
                             sectionKey: aboutKey,
-                            child: const AboutMobileView(),
+                            child: DeviceLayout(
+                              mobile: const AboutMobileView(),
+                              desktop: const AboutDesktopView(),
+                            ),
                           ),
+                          // Skills Section
                           SectionWrapper(
                             sectionKey: skillsKey,
-                            child: const SkillsMobileView(),
+                            child: DeviceLayout(
+                              mobile: const SkillsMobileView(),
+                              desktop: const SkillsDesktopView(),
+                            ),
                           ),
+                          // Projects Section
                           SectionWrapper(
                             sectionKey: projectsKey,
-                            child: const ProjectsMobileView(),
+                            child: DeviceLayout(
+                              mobile: const ProjectsMobileView(),
+                              desktop: const ProjectsDesktopView(),
+                            ),
                           ),
+                          // Contact Section
                           SectionWrapper(
                             sectionKey: contactKey,
-                            child: Column(
-                              children: [ContactMobileView(), ContactFooter()],
+                            child: DeviceLayout(
+                              mobile: Column(
+                                children: [
+                                  ContactMobileView(),
+                                  ContactFooter(),
+                                ],
+                              ),
+                              desktop: Column(
+                                children: [
+                                  ContactDesktopView(),
+                                  ContactFooter(),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -116,28 +195,28 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                   ),
                 ),
-                // TabBar ثابت أسفل الصفحة
-                HomeTabBar(
-                  onTabTap: (section) {
-                    switch (section) {
-                      case HomeSection.about:
-                        scrollToSection(aboutKey);
-                        break;
-                      case HomeSection.skills:
-                        scrollToSection(skillsKey);
-                        break;
-                      case HomeSection.projects:
-                        scrollToSection(projectsKey);
-                        break;
-                      case HomeSection.contact:
-                        scrollToSection(contactKey);
-                        break;
-                    }
-                  },
+
+                // TabBar ثابت أسفل الصفحة للموبايل فقط
+                DeviceLayout(
+                  mobile: HomeTabBar(
+                    onTabTap: (section) {
+                      scrollToSection(section); // تمرير الـ HomeSection مباشرة
+                    },
+                  ),
+
+                  desktop:
+                      SizedBox.shrink(), // Desktop غالباً TabBar أعلى أو لا يحتاج
                 ),
               ],
             ),
+            DeviceLayout(
+              mobile: SizedBox.shrink(),
 
+              desktop: Align(
+                alignment: Alignment.topRight,
+                child: DesktopNavbar(),
+              ), // Desktop غالباً TabBar أعلى أو لا يحتاج
+            ),
             // زر تغيير الثيم أعلى يسار الصفحة
             Align(
               alignment: Alignment.topLeft,
@@ -182,3 +261,10 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 }
+
+final sectionKeys = {
+  HomeSection.about: aboutKey,
+  HomeSection.skills: skillsKey,
+  HomeSection.projects: projectsKey,
+  HomeSection.contact: contactKey,
+};
