@@ -158,7 +158,7 @@ class _IntroMobileViewState extends ConsumerState<IntroMobileView>
                       ),
                       onPressed: () {
                         const cvUrl =
-                            'https://drive.google.com/file/d/1CS89ueVxh1MtbrE5Rd0CXy-u4zQioeeE/view?usp=sharing';
+                            'https://drive.google.com/file/d/1WCG3PcGY2CitRiyWllsniA6Eampso9--/view?usp=sharing';
                         html.window.open(
                           cvUrl,
                           '_blank',
