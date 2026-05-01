@@ -7,6 +7,8 @@ import 'package:myportfolio/features/home/presentation/views/mobile/projects_mob
 import 'package:myportfolio/features/home/presentation/widgets/github_button_widget.dart';
 import 'package:myportfolio/project_model.dart';
 
+import 'package:myportfolio/core/widgets/scroll_entrance_animation.dart';
+
 class ProjectsDesktopView extends ConsumerWidget {
   const ProjectsDesktopView({super.key});
 
@@ -19,31 +21,39 @@ class ProjectsDesktopView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'Projects',
-            style: GoogleFonts.poppins(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInDown,
+            child: Text(
+              'Projects',
+              style: GoogleFonts.poppins(
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+                color: isDark ? AppColors.secondary : AppColors.primary,
+              ),
             ),
           ),
           const SizedBox(height: 60),
 
           Column(
-            children: projects
-                .map(
-                  (project) => Padding(
-                    padding: const EdgeInsets.only(bottom: 50),
-                    child: _DesktopProjectCard(project: project),
-                  ),
-                )
-                .toList(),
+            children: projects.asMap().entries.map((entry) {
+              final index = entry.key;
+              final project = entry.value;
+              return ScrollEntranceAnimation(
+                animationType: AnimationType.fadeInUp,
+                delay: Duration(milliseconds: 200 * index),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: _DesktopProjectCard(project: project),
+                ),
+              );
+            }).toList(),
           ),
         ],
       ),
     );
   }
 }
+
 
 class _DesktopProjectCard extends StatefulWidget {
   final Project project;

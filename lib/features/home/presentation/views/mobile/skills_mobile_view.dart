@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
 import 'package:myportfolio/data.dart';
 
+import 'package:myportfolio/core/widgets/scroll_entrance_animation.dart';
+
 class SkillsMobileView extends ConsumerWidget {
   const SkillsMobileView({super.key});
 
@@ -17,97 +19,114 @@ class SkillsMobileView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Skills & Technologies',
-              style: GoogleFonts.poppins(
-                fontSize: 40,
-                color: isDark ? AppColors.secondary : AppColors.primary,
-                fontWeight: FontWeight.bold,
+            ScrollEntranceAnimation(
+              animationType: AnimationType.fadeInDown,
+              child: Text(
+                'Skills & Technologies',
+                style: GoogleFonts.poppins(
+                  fontSize: 40,
+                  color: isDark ? AppColors.secondary : AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 40),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: skills.map((skill) {
+              children: skills.asMap().entries.map((entry) {
+                final index = entry.key;
+                final skill = entry.value;
                 final icon = skillIcons[skill] ?? Icons.star_outline_rounded;
 
-                return Container(
-                  width: 300, // ياخذ كل عرض الصفحة
-                  height: 60, // ارتفاع ثابت لكل Badge
-                  margin: const EdgeInsets.only(
-                    bottom: 12,
-                  ), // مسافة بين كل Badge
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: AppColors.primary.withOpacity(0.35),
+                return ScrollEntranceAnimation(
+                  animationType: AnimationType.zoomIn,
+                  delay: Duration(milliseconds: 100 * index),
+                  child: Container(
+                    width: 300, // ياخذ كل عرض الصفحة
+                    height: 60, // ارتفاع ثابت لكل Badge
+                    margin: const EdgeInsets.only(
+                      bottom: 12,
+                    ), // مسافة بين كل Badge
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: AppColors.primary.withOpacity(0.35),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(icon, size: 30, color: AppColors.primary),
-
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            skill,
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                    child: Row(
+                      children: [
+                        Icon(icon, size: 30, color: AppColors.primary),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              skill,
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }).toList(),
             ),
             const SizedBox(height: 40),
 
-            Text(
-              'Tools',
-              style: GoogleFonts.poppins(
-                fontSize: 40,
-                color: isDark ? AppColors.secondary : AppColors.primary,
-                fontWeight: FontWeight.bold,
+            ScrollEntranceAnimation(
+              animationType: AnimationType.fadeInUp,
+              child: Text(
+                'Tools',
+                style: GoogleFonts.poppins(
+                  fontSize: 40,
+                  color: isDark ? AppColors.secondary : AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 40),
             Wrap(
               spacing: 12,
               runSpacing: 12,
-              children: tools.map((tool) {
+              children: tools.asMap().entries.map((entry) {
+                final index = entry.key;
+                final tool = entry.value;
                 final icon = toolIcons[tool] ?? Icons.build_rounded;
 
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: AppColors.primary.withOpacity(0.35),
+                return ScrollEntranceAnimation(
+                  animationType: AnimationType.zoomIn,
+                  delay: Duration(milliseconds: 800 + (index * 50)),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 10,
                     ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(icon, size: 18, color: AppColors.primary),
-                      const SizedBox(width: 8),
-                      Text(
-                        tool,
-                        style: const TextStyle(
-                          fontSize: 13.5,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: AppColors.primary.withOpacity(0.35),
                       ),
-                    ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(icon, size: 18, color: AppColors.primary),
+                        const SizedBox(width: 8),
+                        Text(
+                          tool,
+                          style: const TextStyle(
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }).toList(),
@@ -118,3 +137,4 @@ class SkillsMobileView extends ConsumerWidget {
     );
   }
 }
+

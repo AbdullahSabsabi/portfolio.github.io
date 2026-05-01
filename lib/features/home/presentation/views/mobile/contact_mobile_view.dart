@@ -10,6 +10,8 @@ import 'package:myportfolio/features/home/presentation/widgets/contact_form.dart
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:js' as js;
 
+import 'package:myportfolio/core/widgets/scroll_entrance_animation.dart';
+
 class ContactMobileView extends ConsumerWidget {
   const ContactMobileView({super.key});
 
@@ -17,102 +19,114 @@ class ContactMobileView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // ===== بيانات الاتصال =====
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Text(
-              'Contact',
-              style: GoogleFonts.poppins(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInDown,
+            child: Center(
+              child: Text(
+                'Contact',
+                style: GoogleFonts.poppins(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? AppColors.secondary : AppColors.primary,
+                ),
               ),
             ),
           ),
           const SizedBox(height: 40),
 
           // ===== Cards =====
-          ...contacts.map((contact) {
-            return Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-              decoration: BoxDecoration(
-                color: isDark
-                    ? const Color.fromARGB(255, 44, 34, 85).withOpacity(0.7)
-                    : AppColors.lightSurface,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.primary.withOpacity(0.3)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  // أيقونة
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.15),
-                      shape: BoxShape.circle,
+          ...contacts.asMap().entries.map((entry) {
+            final index = entry.key;
+            final contact = entry.value;
+            return ScrollEntranceAnimation(
+              animationType: AnimationType.zoomIn,
+              delay: Duration(milliseconds: 200 * index),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? const Color.fromARGB(255, 44, 34, 85).withOpacity(0.7)
+                      : AppColors.lightSurface,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
                     ),
-                    child: Icon(
-                      contact['icon'] as IconData,
-                      size: 26,
-                      color: isDark ? AppColors.secondary : AppColors.primary,
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    // أيقونة
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withOpacity(0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        contact['icon'] as IconData,
+                        size: 26,
+                        color: isDark ? AppColors.secondary : AppColors.primary,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(width: 16),
+                    const SizedBox(width: 16),
 
-                  // نص
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        contact['type'] as String,
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: isDark
-                              ? AppColors.secondary
-                              : AppColors.primary,
+                    // نص
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          contact['type'] as String,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: isDark
+                                ? AppColors.secondary
+                                : AppColors.primary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      SelectableText(
-                        contact['value'] as String,
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          color: isDark ? Colors.white : Colors.black,
+                        const SizedBox(height: 4),
+                        SelectableText(
+                          contact['value'] as String,
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            color: isDark ? Colors.white : Colors.black,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           }).toList(),
-          
+
           const SizedBox(height: 40),
-          
+
           // ===== Contact Form =====
-          const ContactForm(),
-          
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            delay: const Duration(milliseconds: 600),
+            child: const ContactForm(),
+          ),
+
           const SizedBox(height: 40),
         ],
       ),
     );
   }
 }
+
 
 class ContactFooter extends StatelessWidget {
   const ContactFooter({super.key});

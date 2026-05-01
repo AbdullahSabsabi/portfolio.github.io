@@ -12,6 +12,10 @@ class SectionWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(key: sectionKey, width: double.infinity, child: child);
+    return Container(
+      key: sectionKey,
+      width: double.infinity,
+      child: RepaintBoundary(child: child),
+    );
   }
 }

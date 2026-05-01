@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/theme/app_colors_theme.dart';
 import 'package:myportfolio/data.dart';
 
+import 'package:myportfolio/core/widgets/scroll_entrance_animation.dart';
+
 class SkillsDesktopView extends ConsumerWidget {
   const SkillsDesktopView({super.key});
 
@@ -16,12 +18,15 @@ class SkillsDesktopView extends ConsumerWidget {
       child: Column(
         children: [
           // ===== Title =====
-          Text(
-            'Skills & Technologies',
-            style: GoogleFonts.poppins(
-              fontSize: 52,
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInDown,
+            child: Text(
+              'Skills & Technologies',
+              style: GoogleFonts.poppins(
+                fontSize: 52,
+                fontWeight: FontWeight.bold,
+                color: isDark ? AppColors.secondary : AppColors.primary,
+              ),
             ),
           ),
           const SizedBox(height: 60),
@@ -41,29 +46,33 @@ class SkillsDesktopView extends ConsumerWidget {
               final skill = skills[index];
               final icon = skillIcons[skill] ?? Icons.star_outline_rounded;
 
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.35),
+              return ScrollEntranceAnimation(
+                animationType: AnimationType.zoomIn,
+                delay: Duration(milliseconds: 100 * index),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: AppColors.primary.withOpacity(0.35),
+                    ),
                   ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(icon, size: 32, color: AppColors.primary),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        skill,
-                        style: GoogleFonts.poppins(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
+                  child: Row(
+                    children: [
+                      Icon(icon, size: 32, color: AppColors.primary),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          skill,
+                          style: GoogleFonts.poppins(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
@@ -72,12 +81,15 @@ class SkillsDesktopView extends ConsumerWidget {
           const SizedBox(height: 80),
 
           /// ===== Tools =====
-          Text(
-            'Tools',
-            style: GoogleFonts.poppins(
-              fontSize: 52,
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            child: Text(
+              'Tools',
+              style: GoogleFonts.poppins(
+                fontSize: 52,
+                fontWeight: FontWeight.bold,
+                color: isDark ? AppColors.secondary : AppColors.primary,
+              ),
             ),
           ),
           const SizedBox(height: 40),
@@ -86,34 +98,40 @@ class SkillsDesktopView extends ConsumerWidget {
             spacing: 16,
             runSpacing: 16,
             alignment: WrapAlignment.center,
-            children: tools.map((tool) {
+            children: tools.asMap().entries.map((entry) {
+              final index = entry.key;
+              final tool = entry.value;
               final icon = toolIcons[tool] ?? Icons.build_rounded;
 
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.35),
+              return ScrollEntranceAnimation(
+                animationType: AnimationType.zoomIn,
+                delay: Duration(milliseconds: 1000 + (index * 50)),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 12,
                   ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(icon, size: 20, color: AppColors.primary),
-                    const SizedBox(width: 10),
-                    Text(
-                      tool,
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: AppColors.primary.withOpacity(0.35),
                     ),
-                  ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(icon, size: 20, color: AppColors.primary),
+                      const SizedBox(width: 10),
+                      Text(
+                        tool,
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }).toList(),
@@ -123,3 +141,4 @@ class SkillsDesktopView extends ConsumerWidget {
     );
   }
 }
+

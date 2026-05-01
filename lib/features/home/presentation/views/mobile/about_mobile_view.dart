@@ -6,6 +6,8 @@ import 'package:myportfolio/core/theme/app_text_styles.dart';
 import 'package:myportfolio/data.dart';
 import 'package:myportfolio/project_model.dart';
 
+import 'package:myportfolio/core/widgets/scroll_entrance_animation.dart';
+
 class AboutMobileView extends ConsumerWidget {
   const AboutMobileView({super.key});
 
@@ -19,68 +21,75 @@ class AboutMobileView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ===== Title =====
-          Center(
-            child: Column(
-              children: [
-                Text(
-                  'About Me',
-                  style: GoogleFonts.poppins(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInDown,
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    'About Me',
+                    style: GoogleFonts.poppins(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? AppColors.secondary : AppColors.primary,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Get to know me better',
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    color: isDark
-                        ? const Color.fromARGB(255, 240, 237, 237)
-                        : Colors.black54,
-                    letterSpacing: 1.2,
+                  const SizedBox(height: 8),
+                  Text(
+                    'Get to know me better',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: isDark
+                          ? const Color.fromARGB(255, 240, 237, 237)
+                          : Colors.black54,
+                      letterSpacing: 1.2,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
           const SizedBox(height: 40),
 
           // ===== Main About Card =====
-          Card(
-            elevation: 10,
-            shadowColor: Colors.black38,
-            color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Who I Am ?',
-                    style: GoogleFonts.poppins(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            delay: const Duration(milliseconds: 200),
+            child: Card(
+              elevation: 10,
+              shadowColor: Colors.black38,
+              color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Who I Am ?',
+                      style: GoogleFonts.poppins(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'I am Abdullah Sabsabi, an Informatics Engineer and Flutter developer passionate about building clean, scalable, and high-performance applications. I focus on writing well-structured code with a strong emphasis on software architecture and user experience.\n'
-                    'I believe that a good application is not just one that works, but one that is built to last—easy to maintain, easy to scale, and enjoyable to use. My goal is to continuously grow as a developer and reach a senior level where I can deliver reliable, professional solutions for real-world projects.',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: isDark
-                          ? const Color.fromARGB(255, 240, 237, 237)
-                          : Colors.black54,
-                      height: 1.6,
+                    const SizedBox(height: 12),
+                    Text(
+                      'I am Abdullah Sabsabi, an Informatics Engineer and Flutter developer passionate about building clean, scalable, and high-performance applications. I focus on writing well-structured code with a strong emphasis on software architecture and user experience.\n'
+                      'I believe that a good application is not just one that works, but one that is built to last—easy to maintain, easy to scale, and enjoyable to use. My goal is to continuously grow as a developer and reach a senior level where I can deliver reliable, professional solutions for real-world projects.',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: isDark
+                            ? const Color.fromARGB(255, 240, 237, 237)
+                            : Colors.black54,
+                        height: 1.6,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -90,159 +99,187 @@ class AboutMobileView extends ConsumerWidget {
           // ===== Quick Info Row =====
           Row(
             children: [
-              _infoBox(
-                title: 'Experience',
-                value: 'Flutter Dev',
-                isDark: isDark,
+              ScrollEntranceAnimation(
+                animationType: AnimationType.zoomIn,
+                delay: const Duration(milliseconds: 400),
+                child: _infoBox(
+                  title: 'Experience',
+                  value: 'Flutter Dev',
+                  isDark: isDark,
+                ),
               ),
               const SizedBox(width: 12),
-              _infoBox(title: 'Focus', value: 'Clean Code', isDark: isDark),
+              ScrollEntranceAnimation(
+                animationType: AnimationType.zoomIn,
+                delay: const Duration(milliseconds: 500),
+                child: _infoBox(title: 'Focus', value: 'Clean Code', isDark: isDark),
+              ),
               const SizedBox(width: 12),
-              _infoBox(title: 'Goal', value: 'Senior Level', isDark: isDark),
+              ScrollEntranceAnimation(
+                animationType: AnimationType.zoomIn,
+                delay: const Duration(milliseconds: 600),
+                child: _infoBox(title: 'Goal', value: 'Senior Level', isDark: isDark),
+              ),
             ],
           ),
 
           const SizedBox(height: 50),
 
           // ===== Education =====
-          Center(
-            child: Text(
-              'Education',
-              style: GoogleFonts.poppins(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            child: Center(
+              child: Text(
+                'Education',
+                style: GoogleFonts.poppins(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? AppColors.secondary : AppColors.primary,
+                ),
               ),
             ),
           ),
           const SizedBox(height: 25),
 
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.darkSurface.withOpacity(0.65)
-                  : AppColors.lightSurface,
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(
-                color: AppColors.primary.withOpacity(0.35),
-                width: 1.2,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            delay: const Duration(milliseconds: 200),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? AppColors.darkSurface.withOpacity(0.65)
+                    : AppColors.lightSurface,
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: AppColors.primary.withOpacity(0.35),
+                  width: 1.2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 12,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // ===== Graduation Icon =====
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.15),
-                    shape: BoxShape.circle,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ===== Graduation Icon =====
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.15),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.school_rounded,
+                      color: AppColors.primary,
+                      size: 28,
+                    ),
                   ),
-                  child: Icon(
-                    Icons.school_rounded,
-                    color: AppColors.primary,
-                    size: 28,
-                  ),
-                ),
 
-                const SizedBox(width: 16),
+                  const SizedBox(width: 16),
 
-                // ===== Education Info =====
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Degree
-                      Text(
-                        'Bachelor of Informatics Engineering',
-                        style: GoogleFonts.poppins(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                  // ===== Education Info =====
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Degree
+                        Text(
+                          'Bachelor of Informatics Engineering',
+                          style: GoogleFonts.poppins(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
 
-                      const SizedBox(height: 6),
+                        const SizedBox(height: 6),
 
-                      // University
-                      Text(
-                        'University of Aleppo',
-                        style: GoogleFonts.poppins(fontSize: 14),
-                      ),
-
-                      const SizedBox(height: 6),
-
-                      // Date
-                      Text(
-                        '2019 – 2025',
-                        style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          color: Colors.grey,
+                        // University
+                        Text(
+                          'University of Aleppo',
+                          style: GoogleFonts.poppins(fontSize: 14),
                         ),
-                      ),
 
-                      const SizedBox(height: 14),
+                        const SizedBox(height: 6),
 
-                      // ===== GPA Badge =====
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
+                        // Date
+                        Text(
+                          '2019 – 2025',
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.star_rounded,
-                              size: 16,
-                              color: Colors.amber,
-                            ),
-                            SizedBox(width: 6),
-                            Text(
-                              'GPA: 73.50',
-                              style: GoogleFonts.poppins(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
+
+                        const SizedBox(height: 14),
+
+                        // ===== GPA Badge =====
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.star_rounded,
+                                size: 16,
+                                color: Colors.amber,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 6),
+                              Text(
+                                'GPA: 73.50',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
           const SizedBox(height: 50),
 
           // ===== Work Experience =====
-          Center(
-            child: Text(
-              'Work Experience',
-              style: GoogleFonts.poppins(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            child: Center(
+              child: Text(
+                'Work Experience',
+                style: GoogleFonts.poppins(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? AppColors.secondary : AppColors.primary,
+                ),
               ),
             ),
           ),
           const SizedBox(height: 25),
 
-          ...experiences.map((exp) => Padding(
+          ...experiences.asMap().entries.map((entry) {
+            final index = entry.key;
+            final exp = entry.value;
+            return ScrollEntranceAnimation(
+              animationType: AnimationType.fadeInUp,
+              delay: Duration(milliseconds: 200 + (index * 100)),
+              child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Container(
                   width: double.infinity,
@@ -346,18 +383,23 @@ class AboutMobileView extends ConsumerWidget {
                     ],
                   ),
                 ),
-              )),
+              ),
+            );
+          }),
 
           const SizedBox(height: 40),
 
           // ===== Skills Overview =====
-          Center(
-            child: Text(
-              'What I Care About ?',
-              style: GoogleFonts.poppins(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            child: Center(
+              child: Text(
+                'What I Care About ?',
+                style: GoogleFonts.poppins(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? AppColors.secondary : AppColors.primary,
+                ),
               ),
             ),
           ),
@@ -366,20 +408,32 @@ class AboutMobileView extends ConsumerWidget {
           Center(
             child: Column(
               children: [
-                _skillTile(
-                  'Clean Architecture',
-                  'Writing maintainable and scalable code',
-                  isDark,
+                ScrollEntranceAnimation(
+                  animationType: AnimationType.fadeInUp,
+                  delay: const Duration(milliseconds: 200),
+                  child: _skillTile(
+                    'Clean Architecture',
+                    'Writing maintainable and scalable code',
+                    isDark,
+                  ),
                 ),
-                _skillTile(
-                  'Flutter Performance',
-                  'Optimized UI & state management',
-                  isDark,
+                ScrollEntranceAnimation(
+                  animationType: AnimationType.fadeInUp,
+                  delay: const Duration(milliseconds: 300),
+                  child: _skillTile(
+                    'Flutter Performance',
+                    'Optimized UI & state management',
+                    isDark,
+                  ),
                 ),
-                _skillTile(
-                  'Professional UI',
-                  'Pixel-perfect & responsive layouts',
-                  isDark,
+                ScrollEntranceAnimation(
+                  animationType: AnimationType.fadeInUp,
+                  delay: const Duration(milliseconds: 400),
+                  child: _skillTile(
+                    'Professional UI',
+                    'Pixel-perfect & responsive layouts',
+                    isDark,
+                  ),
                 ),
               ],
             ),
@@ -388,14 +442,18 @@ class AboutMobileView extends ConsumerWidget {
           const SizedBox(height: 50),
 
           // ===== Footer Quote =====
-          Center(
-            child: Text(
-              '“I build apps not just to work, but to last.”',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontStyle: FontStyle.italic,
-                color: AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            delay: const Duration(milliseconds: 600),
+            child: Center(
+              child: Text(
+                '“I build apps not just to work, but to last.”',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                  color: AppColors.primary,
+                ),
               ),
             ),
           ),
@@ -403,6 +461,7 @@ class AboutMobileView extends ConsumerWidget {
       ),
     );
   }
+
 
   // ===== Widgets =====
 

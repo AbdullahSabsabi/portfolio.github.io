@@ -5,6 +5,8 @@ import 'package:myportfolio/core/theme/app_colors_theme.dart';
 import 'package:myportfolio/data.dart';
 import 'package:myportfolio/features/home/presentation/widgets/contact_form.dart';
 
+import 'package:myportfolio/core/widgets/scroll_entrance_animation.dart';
+
 class ContactDesktopView extends ConsumerWidget {
   const ContactDesktopView({super.key});
 
@@ -19,12 +21,15 @@ class ContactDesktopView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           /// ===== Title =====
-          Text(
-            'Contact',
-            style: GoogleFonts.poppins(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInDown,
+            child: Text(
+              'Contact',
+              style: GoogleFonts.poppins(
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+                color: isDark ? AppColors.secondary : AppColors.primary,
+              ),
             ),
           ),
 
@@ -45,29 +50,38 @@ class ContactDesktopView extends ConsumerWidget {
               ),
               itemBuilder: (context, index) {
                 final contact = contacts[index];
-                return _ContactDesktopCard(
-                  icon: contact['icon'] as IconData,
-                  type: contact['type'] as String,
-                  value: contact['value'] as String,
+                return ScrollEntranceAnimation(
+                  animationType: AnimationType.zoomIn,
+                  delay: Duration(milliseconds: 200 * index),
+                  child: _ContactDesktopCard(
+                    icon: contact['icon'] as IconData,
+                    type: contact['type'] as String,
+                    value: contact['value'] as String,
+                  ),
                 );
               },
             ),
           ),
 
           const SizedBox(height: 80),
-          
+
           /// ===== Contact Form =====
-          SizedBox(
-            width: width * 0.5, // Centered and limited width for desktop
-            child: const ContactForm(),
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInUp,
+            delay: const Duration(milliseconds: 600),
+            child: SizedBox(
+              width: width * 0.5, // Centered and limited width for desktop
+              child: const ContactForm(),
+            ),
           ),
-          
+
           const SizedBox(height: 80),
         ],
       ),
     );
   }
 }
+
 
 class _ContactDesktopCard extends StatefulWidget {
   final IconData icon;

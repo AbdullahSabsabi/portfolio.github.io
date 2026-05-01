@@ -6,6 +6,8 @@ import 'package:myportfolio/data.dart';
 import 'package:myportfolio/features/home/presentation/widgets/github_button_widget.dart';
 import 'package:myportfolio/project_model.dart';
 
+import 'package:myportfolio/core/widgets/scroll_entrance_animation.dart';
+
 class ProjectsMobileView extends ConsumerWidget {
   const ProjectsMobileView({super.key});
 
@@ -19,12 +21,15 @@ class ProjectsMobileView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           /// Section Title
-          Text(
-            'Projects',
-            style: GoogleFonts.poppins(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.secondary : AppColors.primary,
+          ScrollEntranceAnimation(
+            animationType: AnimationType.fadeInDown,
+            child: Text(
+              'Projects',
+              style: GoogleFonts.poppins(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: isDark ? AppColors.secondary : AppColors.primary,
+              ),
             ),
           ),
           const SizedBox(height: 40),
@@ -36,7 +41,11 @@ class ProjectsMobileView extends ConsumerWidget {
             itemCount: projects.length,
             separatorBuilder: (_, __) => const SizedBox(height: 30),
             itemBuilder: (context, index) {
-              return ProjectCard(project: projects[index]);
+              return ScrollEntranceAnimation(
+                animationType: AnimationType.fadeInUp,
+                delay: Duration(milliseconds: 200 * index),
+                child: ProjectCard(project: projects[index]),
+              );
             },
           ),
         ],
@@ -44,6 +53,7 @@ class ProjectsMobileView extends ConsumerWidget {
     );
   }
 }
+
 
 class ProjectCard extends StatefulWidget {
   final Project project;

@@ -141,6 +141,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                     child: SingleChildScrollView(
                       controller: _scrollController,
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
                       child: Column(
                         children: [
                           // Intro Section
@@ -214,7 +217,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
               desktop: Align(
                 alignment: Alignment.topRight,
-                child: DesktopNavbar(),
+                child: RepaintBoundary(child: DesktopNavbar()),
               ), // Desktop غالباً TabBar أعلى أو لا يحتاج
             ),
             // زر تغيير الثيم أعلى يسار الصفحة
