@@ -94,6 +94,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   // ignore: unused_element
   void _scrollListener() {
+    if (!mounted) return;
     if (isScrollingByTab) return; // تجاهل تحديثات listener أثناء scroll من Tab
 
     final scrollOffset = _scrollController.offset;

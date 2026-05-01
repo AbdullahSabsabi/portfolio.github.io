@@ -99,26 +99,32 @@ class AboutMobileView extends ConsumerWidget {
           // ===== Quick Info Row =====
           Row(
             children: [
-              ScrollEntranceAnimation(
-                animationType: AnimationType.zoomIn,
-                delay: const Duration(milliseconds: 400),
-                child: _infoBox(
-                  title: 'Experience',
-                  value: 'Flutter Dev',
-                  isDark: isDark,
+              Expanded(
+                child: ScrollEntranceAnimation(
+                  animationType: AnimationType.zoomIn,
+                  delay: const Duration(milliseconds: 400),
+                  child: _infoBox(
+                    title: 'Experience',
+                    value: 'Flutter Dev',
+                    isDark: isDark,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
-              ScrollEntranceAnimation(
-                animationType: AnimationType.zoomIn,
-                delay: const Duration(milliseconds: 500),
-                child: _infoBox(title: 'Focus', value: 'Clean Code', isDark: isDark),
+              Expanded(
+                child: ScrollEntranceAnimation(
+                  animationType: AnimationType.zoomIn,
+                  delay: const Duration(milliseconds: 500),
+                  child: _infoBox(title: 'Focus', value: 'Clean Code', isDark: isDark),
+                ),
               ),
               const SizedBox(width: 12),
-              ScrollEntranceAnimation(
-                animationType: AnimationType.zoomIn,
-                delay: const Duration(milliseconds: 600),
-                child: _infoBox(title: 'Goal', value: 'Senior Level', isDark: isDark),
+              Expanded(
+                child: ScrollEntranceAnimation(
+                  animationType: AnimationType.zoomIn,
+                  delay: const Duration(milliseconds: 600),
+                  child: _infoBox(title: 'Goal', value: 'Senior Level', isDark: isDark),
+                ),
               ),
             ],
           ),
@@ -470,31 +476,29 @@ class AboutMobileView extends ConsumerWidget {
     required String value,
     required bool isDark,
   }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: isDark
-              ? AppColors.darkSurface.withOpacity(0.6)
-              : AppColors.lightSurface,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          children: [
-            Text(
-              value,
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: isDark
+            ? AppColors.darkSurface.withOpacity(0.6)
+            : AppColors.lightSurface,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
             ),
-            const SizedBox(height: 6),
-            Text(
-              title,
-              style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            title,
+            style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey),
+          ),
+        ],
       ),
     );
   }
